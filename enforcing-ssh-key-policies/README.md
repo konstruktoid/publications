@@ -72,7 +72,7 @@ into this category.
 We are excluding the `root` user since the possible impact on the system if the
 permissions on files required for `sshd` is modified.
 
-We also  assume security best practices are followed, and these states that the
+We also  assume security best practices are followed, and these state that the
 `root` user should never be allowed to login over `ssh` or used at all unless
 necessary, see for example the [CIS Ubuntu Linux 18.04 LTS Benchmark](https://www.cisecurity.org/benchmark/ubuntu_linux/)
 and [Canonical Ubuntu 18.04 LTS STIG - Ver 1, Rel 1](https://stigviewer.com/stig/canonical_ubuntu_18.04_lts/).
