@@ -1,0 +1,85 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install python-jmespath
+      become: 'yes'
+      apt:
+        name: python-jmespath
+        state: present
+        update_cache: 'yes'
+      when: ansible_python.version.major <= 2
+
+    - name: Install python3-jmespath
+      become: 'yes'
+      apt:
+        name: python3-jmespath
+        state: present
+        update_cache: 'yes'
+      when: ansible_python.version.major >= 3
+
+    - name: Create local facts directory
+      become: 'yes'
+      file:
+        path: /etc/ansible/facts.d
+        recurse: true
+        state: directory
+        mode: 0755
+        owner: root
+        group: root
+      tags:
+        - fact
+
+    - name: Add SSH keys fact script
+      become: 'yes'
+      template:
+        src: etc/ansible/facts.d/sshkeys.fact
+        dest: /etc/ansible/facts.d/sshkeys.fact
+        mode: 0755
+        owner: root
+        group: root
+      tags:
+        - sshd
+        - fact
+
+    - name: Update facts
+      setup: ~
+      tags:
+        - fact
+
+    - name: Lock users with short SSH keys
+      user:
+        name: "{{ item.user_name }}"
+        password_lock: 'yes'
+        shell: "/bin/false"
+      with_items:
+        - "{{ ansible_local['sshkeys'] | json_query('keys.*') }}"
+      when: item.user_id >= 500
+            and ((item.type == "DSA" or item.type == "RSA") and item.size < 3072)
+            or ((item.type == "ECDSA" or item.type == "ED25519") and item.size < 256)
+      tags:
+        - sshd
+
+    - name: Lock users with SSH keys older than 90 days
+      vars:
+        - old_key: "{{ ansible_date_time.epoch|int - (86400*90) }}"
+      user:
+        name: "{{ item.user_name }}"
+        password_lock: 'yes'
+        shell: "/bin/false"
+      with_items:
+        - "{{ ansible_local['sshkeys'] | json_query('keys.*') }}"
+      when: item.modified_epoch|int <= old_key|int and item.user_id >= 500
+      tags:
+        - sshd
+
+    - name: Set SSH key file permissions
+      file:
+        path: "{{ item.file }}"
+        mode: '600'
+      with_items:
+        - "{{ ansible_local['sshkeys'] | json_query('keys.*') }}"
+      when: item.user_id >= 500 and item.permissions|int > 600
+      tags:
+        - sshd
+...
