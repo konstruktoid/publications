@@ -1,4 +1,4 @@
-# Ubuntu 18.04: Comparing the DISA STIG and CIS Benchmark
+# Ubuntu 18.04: Comparing the DISA STIG and CIS Benchmark values
 
 This is a document comparing DISA STIG and CIS benchmark recommended values
 when configuring a [Ubuntu 18.04 LTS (Bionic Beaver)](https://releases.ubuntu.com/18.04/)
