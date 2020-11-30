@@ -1,0 +1,8 @@
+---
+ansible_ssh_common_args: '-o ControlMaster=auto -o ControlPersist=60s'
+sshd_admin_net: [192.168.0.0/24]
+sshd_allow_groups: "vagrant sudo ubuntu"
+sshd_allow_agent_forwarding: 'yes'
+sshd_allow_tcp_forwarding: 'yes'
+sshd_max_sessions: 10
+...

@@ -1,0 +1,29 @@
+---
+- name: allow haproxy http traffic
+  become: 'yes'
+  ufw:
+    rule: allow
+    src: "{{ item }}"
+    port: "{{ haproxy_http_bind_port|int }}"
+    proto: tcp
+    comment: ansible managed
+  with_items:
+    - "{{ haproxy_client_net }}"
+  tags:
+    - ufw
+    - haproxy
+
+- name: allow haproxy https traffic
+  become: 'yes'
+  ufw:
+    rule: allow
+    src: "{{ item }}"
+    port: "{{ haproxy_https_bind_port|int }}"
+    proto: tcp
+    comment: ansible managed
+  with_items:
+    - "{{ haproxy_client_net }}"
+  tags:
+    - ufw
+    - haproxy
+...

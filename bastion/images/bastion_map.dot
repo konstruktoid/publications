@@ -1,0 +1,56 @@
+digraph bastion {
+  label="";
+  compound=true;
+  rankdir=LR;
+  edge [dir=none]
+  graph [fontname = "arial"];
+  node [fontname = "arial"];
+  edge [fontname = "arial"];
+
+  web01[label="" shape=none image="./osa_server.png" labelloc=b color="#ffffff"];
+  web02[label="" shape=none image="./osa_server.png" labelloc=b color="#ffffff"];
+  loadbalancer[label="" shape=none image="./osa_server_web.png" labelloc=b color="#ffffff"];
+  bastion[label="" shape=none image="./osa_server_identity.png" labelloc=b color="#ffffff"];
+  manager[label="" shape=none image="./osa_desktop.png" labelloc=b color="#ffffff"];
+  internet[label="" shape=none, image="./osa_cloud.png" labelloc=b color="#ffffff"];
+
+  subgraph cluster_0 {
+    node [style=filled];
+    label="Internal";
+    style=rounded;
+
+    subgraph cluster_5 {
+      node [style=filled];
+
+      manager -> bastion[color="green:invis:green"];
+      label="Management";
+      color=green;
+      style=rounded;
+    }
+
+    subgraph cluster_1 {
+      node [style=filled];
+      bastion -> { web01 web02 }[color="green:invis:blue"];
+      bastion -> loadbalancer[color="green:invis:blue"];
+      label="DMZ";
+      color=blue;
+      style=rounded;
+    }
+  }
+
+  subgraph cluster_2 {
+    node [style=filled];
+    { web01 web02 } -> loadbalancer[color="blue:invis:blue"];
+    color=yellow
+    label="Web";
+    style=rounded;
+  }
+
+  subgraph cluster_3 {
+    node [style=filled];
+    loadbalancer -> internet[color="blue:invis:red"];
+    label = "Public";
+    color=red;
+    style=rounded;
+  }
+}

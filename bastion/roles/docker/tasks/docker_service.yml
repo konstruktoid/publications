@@ -1,0 +1,36 @@
+---
+- name: sysctl
+  become: 'yes'
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    sysctl_set: 'yes'
+    state: present
+    reload: 'yes'
+  tags:
+    - sysctl
+
+- name: docker systemd service
+  become: 'yes'
+  template:
+    src: docker.service.j2
+    dest: /etc/systemd/system/docker.service
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - reload systemd
+    - restart docker
+  tags:
+    - docker
+
+- name: docker running and enabled
+  become: 'yes'
+  service:
+    name: docker
+    state: started
+    enabled: 'yes'
+  ignore_errors: 'yes'
+  tags:
+    - docker
+...

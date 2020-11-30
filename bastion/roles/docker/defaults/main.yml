@@ -1,0 +1,5 @@
+---
+daemon_opts: "--live-restore --icc=false -s overlay2 --default-ulimit nproc=512:1024 --default-ulimit nofile=100:200 -H fd://"
+daemon_opts_old_kernel: "--live-restore --icc=false --default-ulimit nproc=512:1024 --default-ulimit nofile=100:200 -H fd://"
+kernel: "{{ ansible_kernel | first }}"
+...

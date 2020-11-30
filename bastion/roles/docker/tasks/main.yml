@@ -1,0 +1,7 @@
+---
+- include: docker_install.yml
+- include: docker_python.yml
+- include: audit.yml
+- include: docker_service.yml
+- include: ufw.yml
+...

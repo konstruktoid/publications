@@ -1,0 +1,3 @@
+---
+nginx_bind_port: 80
+...

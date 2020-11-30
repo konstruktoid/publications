@@ -1,0 +1,7 @@
+---
+haproxy_http_bind_port: 80
+haproxy_https_bind_port: 443
+haproxy_bind_address: 0.0.0.0
+haproxy_client_net: [0.0.0.0]
+http_port: 80
+...

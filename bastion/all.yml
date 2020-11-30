@@ -1,0 +1,79 @@
+---
+- hosts: bastion
+  serial: 1
+  any_errors_fatal: true
+  tasks:
+    - name: ssh keyscan bastion hosts from localhost
+      delegate_to: localhost
+      lineinfile:
+        dest: ~/.ssh/known_hosts
+        create: 'yes'
+        state: present
+        mode: '0600'
+        line: "{{ lookup('pipe', 'ssh-keyscan -H' + ' ' + hostvars[item]['ansible_host']) }}"
+      with_items:
+        - "{{ groups['bastion'] }}"
+
+    - name: ssh keyscan internal hosts from localhost
+      delegate_to: localhost
+      lineinfile:
+        dest: ~/.ssh/known_hosts
+        create: 'yes'
+        state: present
+        mode: '0600'
+        line: "{{ lookup('pipe', 'ssh-keyscan -H' + ' ' + hostvars[item]['ansible_host']) }}"
+      ignore_errors: true
+      with_items:
+        - "{{ groups['internal']|reverse|list }} "
+
+    - name: ssh keyscan internal hosts from bastion01
+      delegate_to: bastion01
+      lineinfile:
+        dest: ~/.ssh/known_hosts
+        create: 'yes'
+        state: present
+        mode: '0600'
+        line: "{{ lookup('pipe', 'ssh-keyscan -H' + ' ' + hostvars[item]['ansible_host']) }}"
+      ignore_errors: true
+      with_items:
+        - "{{ groups['internal']|reverse|list }} "
+    - include_role:
+        name: konstruktoid.hardening
+
+- hosts: all:!bastion
+  strategy: free
+  serial:
+    - 1
+    - 5
+    - "20%"
+  max_fail_percentage: 10
+  tasks:
+    - include_role:
+        name: konstruktoid.hardening
+
+- hosts: webserver
+  strategy: free
+  serial:
+    - 1
+    - 5
+    - "20%"
+  max_fail_percentage: 10
+  tasks:
+    - include_role:
+        name: docker
+    - include_role:
+        name: nginx
+
+- hosts: loadbalancer
+  strategy: free
+  serial:
+    - 1
+    - 5
+    - "20%"
+  max_fail_percentage: 10
+  tasks:
+    - include_role:
+        name: docker
+    - include_role:
+        name: haproxy
+...

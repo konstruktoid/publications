@@ -2,6 +2,7 @@
 
 ## Writer
 
+[Building a bastion, or an example on how to lock down a website using Ansible and Docker](./bastion/README.md)\
 [Ubuntu 18.04: Comparing the DISA STIG and CIS Benchmark values](ubuntu_comparing_guides_benchmarks.md)\
 [Using Ansible custom, or local, facts](https://medium.com/@konstruktoid/using-ansible-custom-or-local-facts-95f3a8510fae)\
 [Enforcing a Docker container security policy](https://raw.githubusercontent.com/konstruktoid/Docker/master/ContainerCon_Berlin_2016.pdf) presented at [LinuxCon+ContainerCon Europe 2016](https://linuxconcontainerconeurope2016.sched.com/event/7oHi/enforcing-a-docker-container-security-policy-thomas-sjogren-ab-svenska-spel)\

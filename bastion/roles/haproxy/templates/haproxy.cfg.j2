@@ -1,0 +1,51 @@
+# {{ ansible_managed }}
+# generated 2020-07-16, Mozilla Guideline v5.4, HAProxy 2.0.13, OpenSSL 1.1.1g, modern configuration
+# https://ssl-config.mozilla.org/#server=haproxy&version=2.0.13&config=modern&openssl=1.1.1g&guideline=5.4
+global
+  ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+  ssl-default-bind-options no-sslv3 no-tlsv10 no-tlsv11 no-tlsv12 no-tls-tickets
+  ssl-default-server-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+  ssl-default-server-options no-sslv3 no-tlsv10 no-tlsv11 no-tlsv12 no-tls-tickets
+  tune.ssl.default-dh-param 2048
+  log 127.0.0.1 local2
+  chroot /var/lib/haproxy
+  pidfile /var/run/haproxy.pid
+  maxconn 4000
+  user haproxy
+  group haproxy
+  stats socket /var/lib/haproxy/stats
+
+defaults
+  errorfile 408 /dev/null
+  log global
+  mode http
+  option httplog
+  option dontlognull
+  option redispatch
+  option forwardfor
+  retries 3
+  timeout http-request 10s
+  timeout queue 1m
+  timeout connect 10s
+  timeout client 1m
+  timeout server 1m
+  timeout http-keep-alive 10s
+  timeout check 10s
+
+frontend proxy-in
+  mode  http
+  # openssl req -x509 -nodes -newkey rsa:4096 -sha256 -keyout haproxy.pem.j2 -out haproxy.pem.j2 -days 365
+  bind :{{ haproxy_https_bind_port }} ssl crt /etc/ssl/certs/haproxy.pem alpn h2,http/1.1
+  bind :{{ haproxy_http_bind_port }}
+  redirect scheme https code 301 if !{ ssl_fc }
+
+  # HSTS (63072000 seconds)
+  http-response set-header Strict-Transport-Security max-age=63072000
+  default_backend proxy-out
+
+backend proxy-out
+  mode http
+  balance roundrobin
+  {% for host in groups['webserver'] %}
+  server {{ host }} {{ hostvars[host]['ansible_host'] }}:{{ http_port }} check port {{ http_port }} on-marked-down shutdown-sessions
+  {% endfor %}

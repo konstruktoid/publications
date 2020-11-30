@@ -1,0 +1,25 @@
+---
+- name: wait until docker0 route
+  wait_for:
+    path: /proc/net/route
+    search_regex: docker0
+  register: docker0
+
+- name: update facts
+  setup: ~
+  tags:
+    - fact
+
+- name: allow docker0 traffic out
+  become: 'yes'
+  ufw:
+    rule: allow
+    interface: docker0
+    direction: out
+    from: "{{ ansible_docker0.ipv4.network }}/16"
+    comment: ansible managed
+  when: ansible_os_family == "Debian"
+  tags:
+    - docker
+    - ufw
+...

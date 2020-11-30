@@ -1,0 +1,65 @@
+---
+- name: create haproxy directory
+  become: 'yes'
+  file:
+    path: /etc/haproxy/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - haproxy
+
+- name: add haproxy.pem
+  become: 'yes'
+  template:
+    src: haproxy.pem.j2
+    dest: /etc/ssl/certs/haproxy.pem
+    mode: 0644
+    owner: root
+    group: root
+  tags:
+    - haproxy
+
+- name: add haproxy config
+  become: 'yes'
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    owner: root
+    group: root
+  tags:
+    - haproxy
+
+- name: haproxy container
+  become: 'yes'
+  docker_container:
+    name: haproxy
+    image: konstruktoid/haproxy
+    state: started
+    restart: 'yes'
+    ports:
+      - "{{ haproxy_bind_address }}:{{ haproxy_http_bind_port }}:{{ haproxy_http_bind_port }}"
+      - "{{ haproxy_bind_address }}:{{ haproxy_https_bind_port }}:{{ haproxy_https_bind_port }}"
+    cap_drop: all
+    capabilities:
+      - chown
+      - dac_override
+      - net_bind_service
+      - setgid
+      - setuid
+      - sys_chroot
+    ulimits:
+      - nofile:8032:16064
+    volumes:
+      - /etc/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg:ro
+      - /etc/ssl/certs/haproxy.pem:/etc/ssl/certs/haproxy.pem:ro
+    pull: 'yes'
+    restart_policy: on-failure
+    restart_retries: 3
+    hostname: "{{ ansible_nodename }}"
+  tags:
+    - docker_container
+    - haproxy
+...

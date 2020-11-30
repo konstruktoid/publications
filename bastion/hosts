@@ -1,0 +1,16 @@
+# Mon Nov 30 21:18:56 CET 2020
+
+[bastion]
+bastion01 ansible_host=192.168.0.45 ansible_user=vagrant
+
+[internal]
+loadbalancer01 ansible_host=10.2.3.43 ansible_user=vagrant
+webserver01 ansible_host=10.2.3.41 ansible_user=vagrant
+webserver02 ansible_host=10.2.3.42 ansible_user=vagrant
+
+[loadbalancer]
+loadbalancer01 ansible_host=10.2.3.43 ansible_user=vagrant
+
+[webserver]
+webserver01 ansible_host=10.2.3.41 ansible_user=vagrant
+webserver02 ansible_host=10.2.3.42 ansible_user=vagrant

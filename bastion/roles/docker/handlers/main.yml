@@ -1,0 +1,24 @@
+---
+- name: restart docker
+  become: 'yes'
+  service:
+    name: docker
+    state: restarted
+  tags:
+    - docker
+
+- name: reload systemd
+  become: 'yes'
+  systemd:
+    daemon_reload: 'yes'
+  tags:
+    - systemd
+
+- name: restart auditd
+  become: 'yes'
+  service:
+    name: auditd
+    state: restarted
+  tags:
+    - auditd
+...
