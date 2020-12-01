@@ -33,4 +33,7 @@
   ignore_errors: 'yes'
   tags:
     - docker
+
+- name: run all notified handlers
+  meta: flush_handlers
 ...
