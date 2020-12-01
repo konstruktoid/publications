@@ -37,6 +37,7 @@
       ignore_errors: true
       with_items:
         - "{{ groups['internal']|reverse|list }} "
+
     - include_role:
         name: konstruktoid.hardening
 
