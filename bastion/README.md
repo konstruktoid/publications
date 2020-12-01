@@ -1,6 +1,7 @@
-# Building a bastion, or an example how to lock down a webserver using Ansible and Docker
+# Building a bastion, or an example on how to lock down a website using Ansible and Docker
 
 <img align="left" src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Bastion_%28PSF%29.jpg" />
+
 This lab uses [Vagrant](https://www.vagrantup.com/) to create four
 [Ubuntu](https://ubuntu.com/) servers in a test
 environment, deploy the configuation and services with [Ansible](https://www.ansible.com/)
