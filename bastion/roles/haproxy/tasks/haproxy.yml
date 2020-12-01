@@ -62,4 +62,8 @@
   tags:
     - docker_container
     - haproxy
+
+- name: wait for haproxy container
+  wait_for:
+    port: "{{ haproxy_https_bind_port }}"
 ...

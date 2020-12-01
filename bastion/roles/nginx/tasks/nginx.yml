@@ -75,6 +75,7 @@
     volumes:
       - /etc/nginx/:/etc/nginx/:ro
       - /var/www/{{ ansible_hostname }}:/var/www/{{ ansible_hostname }}:ro
+      - /var/log/nginx/:/var/log/nginx/
     pull: 'yes'
     restart_policy: on-failure
     restart_retries: 3
@@ -82,4 +83,8 @@
   tags:
     - docker_container
     - nginx
+
+- name: wait for nginx container
+  wait_for:
+    port: "{{ nginx_bind_port }}"
 ...
