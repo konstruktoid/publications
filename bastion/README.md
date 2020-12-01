@@ -220,7 +220,11 @@ We also mount configuration and website volumes read only.
 
 [NISTIR 7966 Security of Interactive and Automated Access Management Using Secure Shell (SSH)](https://nvlpubs.nist.gov/nistpubs/ir/2015/NIST.IR.7966.pdf)
 
-### User management
+### Account management
+
+[CIS Control 16 - Account Monitoring and Control](https://www.cisecurity.org/controls/account-monitoring-and-control/)
+
+[NIST Special Publication 800-53 (Rev. 4): AC-2 ACCOUNT MANAGEMENT](https://nvd.nist.gov/800-53/Rev4/control/AC-2)
 
 ### Server and service hardening
 
