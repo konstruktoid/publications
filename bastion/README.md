@@ -20,8 +20,7 @@ The firewalls placed on each server should allow access from the bastion
 host for Ansible administration and only to and from required services.
 
 Software based firewalls should be used in conjunction with perimeter firewalls,
-placed between all general zones, e.g the DMZ, Public and Internal
-networks.
+placed between all general zones, e.g the DMZ, Public and Internal networks.
 
 > Network location alone should not imply trust.
 
@@ -60,7 +59,7 @@ will also add the Vagrant private key to the SSH authentication agent using
 
 Visit `https://127.0.0.1` after the playbook finishes, and since we're using
 self-signed certificates, ignore the certificate warning. Reload the page a
-couple of times to verify the loadbalancer is working.
+couple of times to verify that the loadbalancer is working.
 
 ## Ansible details
 
@@ -182,7 +181,7 @@ hosts has failed.
 On all Docker containers we'll reduce the number of permitted container
 capabilities and set a soft and hard limit on the number of open files.
 
-We also only mount specified volumes read only.
+We also mount configuration and website volumes read only.
 
 ```yaml
 - name: nginx container
@@ -206,6 +205,7 @@ We also only mount specified volumes read only.
     volumes:
       - /etc/nginx/:/etc/nginx/:ro
       - /var/www/{{ ansible_hostname }}:/var/www/{{ ansible_hostname }}:ro
+      - /var/log/nginx/:/var/log/nginx/
     pull: 'yes'
     restart_policy: on-failure
     restart_retries: 3
