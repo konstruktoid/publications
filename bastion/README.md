@@ -1,11 +1,6 @@
-# Building a bastion, or an example on how to lock down a website using Ansible and Docker
+# Building a bastion, or an example how to lock down a webserver using Ansible and Docker
 
-![Wikipedia: Image of Bastion](https://upload.wikimedia.org/wikipedia/commons/c/c5/Bastion_%28PSF%29.jpg)
-
-## Description
-
-Please note that this document, lab and tutorial is a work in progress.
-
+<img align="left" src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Bastion_%28PSF%29.jpg" />
 This lab uses [Vagrant](https://www.vagrantup.com/) to create four
 [Ubuntu](https://ubuntu.com/) servers in a test
 environment, deploy the configuation and services with [Ansible](https://www.ansible.com/)
@@ -27,7 +22,7 @@ Software based firewalls should be used in conjunction with perimeter firewalls,
 placed between all general zones, e.g the DMZ, Public and Internal
 networks.
 
-Note that network location alone should not imply trust.
+> Network location alone should not imply trust.
 
 ### Placement and connections
 
@@ -40,8 +35,8 @@ reject all network traffic not explicitly allowed, and only to and from the
 required services.
 
 - Manager node (internal network)
-- Bastion (internal network/DMZ)
-- Webservers, HAProxy (DMZ)
+- Bastion host (internal network/DMZ)
+- Webservers and HAProxy (DMZ)
 
 ![Network overview](./images/bastion_map.png)
 
@@ -63,7 +58,8 @@ will also add the Vagrant private key to the SSH authentication agent using
 `ansible-playbook -i hosts all.yml` will run the `all.yml` Ansible playbook.
 
 Visit `https://127.0.0.1` after the playbook finishes, and since we're using
-self-signed certificates, ignore the certificate warning.
+self-signed certificates, ignore the certificate warning. Reload the page a
+couple of times to verify the loadbalancer is working.
 
 ## Ansible details
 
@@ -115,8 +111,7 @@ role.
 Below is an example on how to accept all `ssh` host keys in order to reduce any
 disruption and manual workload when hosts are added or reinstalled.
 
-Note that this is an example and in a production enviroment host keys should be
-validated in a secure manner.
+> This is an example and in a production enviroment host keys should be validated in a secure manner.
 
 ```yaml
 - hosts: bastion
@@ -157,8 +152,6 @@ validated in a secure manner.
       ignore_errors: true
       with_items:
         - "{{ groups['internal']|reverse|list }} "
-    - include_role:
-        name: konstruktoid.hardening
 ```
 
 ### Reducing systematic failures using the `serial` keyword
@@ -183,33 +176,62 @@ hosts has failed.
   max_fail_percentage: 10
 ```
 
+### Docker container configuration
+
+On all Docker containers we'll reduce the number of permitted container
+capabilities and set a soft and hard limit on the number of open files.
+
+We also only mount specified volumes read only.
+
+```yaml
+- name: nginx container
+  become: 'yes'
+  docker_container:
+    name: nginx
+    image: konstruktoid/nginx
+    state: started
+    restart: 'yes'
+    ports:
+      - "{{ nginx_bind_port }}:{{ nginx_bind_port }}"
+    cap_drop: all
+    capabilities:
+      - chown
+      - dac_override
+      - net_bind_service
+      - setgid
+      - setuid
+    ulimits:
+      - nofile:8032:16064
+    volumes:
+      - /etc/nginx/:/etc/nginx/:ro
+      - /var/www/{{ ansible_hostname }}:/var/www/{{ ansible_hostname }}:ro
+    pull: 'yes'
+    restart_policy: on-failure
+    restart_retries: 3
+    hostname: "{{ ansible_nodename }}"
+```
+
 ## Discussion and documents: Risks and areas of attention
 
-- SSH key management
-- SSH auditing
-- User management
-- Server hardening
-- Service hardening
-- Manager node security
+### SSH key management and auditing
+
+[Enforcing SSH key policies using Ansible](https://medium.com/@konstruktoid/enforcing-ssh-key-policies-using-ansible-dedcdea5d46e)
+
+[NISTIR 7966 Security of Interactive and Automated Access Management Using Secure Shell (SSH)](https://nvlpubs.nist.gov/nistpubs/ir/2015/NIST.IR.7966.pdf)
+
+### User management
+
+### Server and service hardening
 
 [Center for Internet Security Linux Benchmarks](https://www.cisecurity.org/cis-benchmarks/)
 
-[NISTIR 7966 Security of Interactive and Automated Access Management Using Secure Shell (SSH)](https://nvlpubs.nist.gov/nistpubs/ir/2015/NIST.IR.7966.pdf)
+[Docker security](https://docs.docker.com/engine/security/)
 
 [OSA SP-023: Industrial Control Systems](http://www.opensecurityarchitecture.org/cms/library/patternlandscape/293-sp-023-industrial-control-systems)
 
 [OSA SP-026: PCI Full Environment](http://www.opensecurityarchitecture.org/cms/library/patternlandscape/315-sp-026-pci-full)
 
 [Security focused systemd configuration](https://github.com/konstruktoid/hardening/blob/master/systemd.adoc)
-
-## Software used
-
-- Ansible
-- Vagrant
-- Docker
-- HAPRoxy
-- NGINX
-- Ubuntu 20.04 LTS (Focal Fossa)
 
 ## Structure
 
