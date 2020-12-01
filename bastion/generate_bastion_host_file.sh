@@ -2,6 +2,7 @@
 set -x -o pipefail
 
 if ! command -v ansible 1>/dev/null; then
+  echo "ansible needs to be installed."
   exit 1
 fi
 
@@ -30,8 +31,6 @@ if [ "$(vagrant status | grep -c 'running.*virtualbox')" -le 0 ]; then
 fi
 
 echo "Generating Ansible hosts file."
-echo "# $(date)" > "${HOSTFILE}"
-
 if [ "${NETWORK}" == '0.0.0.0/24' ]; then
   NETWORK="0.0.0.0/0"
 fi
@@ -41,7 +40,6 @@ if [ ! -d ./group_vars ]; then
 fi
 
 {
-  echo
   echo "[bastion]"
   for VM in $(vagrant status | grep -iE 'running.*virtualbox' | grep 'bastion' | awk '{print $1}'); do
     mapfile -t VAGRANT_SSH < <(vagrant ssh-config "$VM" | awk '{print $NF}')
@@ -73,7 +71,7 @@ fi
       echo "..."
     } > "./group_vars/bastion.yml"
   done
-} >> "${HOSTFILE}"
+} > "${HOSTFILE}"
 
 {
   echo
