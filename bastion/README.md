@@ -214,12 +214,6 @@ We also mount configuration and website volumes read only.
 
 ## Discussion and documents: Risks and areas of attention
 
-### SSH key management and auditing
-
-[Enforcing SSH key policies using Ansible](https://medium.com/@konstruktoid/enforcing-ssh-key-policies-using-ansible-dedcdea5d46e)
-
-[NISTIR 7966 Security of Interactive and Automated Access Management Using Secure Shell (SSH)](https://nvlpubs.nist.gov/nistpubs/ir/2015/NIST.IR.7966.pdf)
-
 ### Account management
 
 [CIS Control 16 - Account Monitoring and Control](https://www.cisecurity.org/controls/account-monitoring-and-control/)
@@ -237,6 +231,12 @@ We also mount configuration and website volumes read only.
 [OSA SP-026: PCI Full Environment](http://www.opensecurityarchitecture.org/cms/library/patternlandscape/315-sp-026-pci-full)
 
 [Security focused systemd configuration](https://github.com/konstruktoid/hardening/blob/master/systemd.adoc)
+
+### SSH key management and auditing
+
+[Enforcing SSH key policies using Ansible](https://medium.com/@konstruktoid/enforcing-ssh-key-policies-using-ansible-dedcdea5d46e)
+
+[NISTIR 7966 Security of Interactive and Automated Access Management Using Secure Shell (SSH)](https://nvlpubs.nist.gov/nistpubs/ir/2015/NIST.IR.7966.pdf)
 
 ## Structure
 
