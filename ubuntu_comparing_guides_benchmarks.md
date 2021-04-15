@@ -1,22 +1,22 @@
-# Ubuntu 18.04: Comparing the DISA STIG and CIS Benchmark values
+# Comparing the DISA STIG and CIS Benchmark values
 
 This is a document comparing DISA STIG and CIS benchmark recommended values
-when configuring a [Ubuntu 18.04 LTS (Bionic Beaver)](https://releases.ubuntu.com/18.04/)
+when configuring a [Ubuntu Server](https://ubuntu.com/download/server)
 server.
 
 This document compare `sshd` timeouts, password lengths and so on. It does
 not, for example, compare file permissions, `auditd` rules, packages to be
 removed or which specific filesystem should be disabled.
 
-## Documents
+## Ubuntu 18.04
 
-At the time of writing, there was no DISA STIG available for Ubuntu 20.04.
+### Documents
 
 [Canonical Ubuntu 18.04 LTS Security Technical Implementation Guide Version: 2 Release: 1](https://public.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cunix-linux)
 
 [CIS Ubuntu Linux 18.04 LTS Benchmark v2.0.1](https://www.cisecurity.org/cis-benchmarks/#ubuntu_linux)
 
-## DISA STIG and CIS Benchmark comparison
+### Comparison Table
 
 _Rule_ is the configuration file and configuration option.\
 _CIS_ is the CIS Benchmark value.\
@@ -95,3 +95,25 @@ document.
 | `/etc/systemd/coredump.conf`: `ProcessSizeMax` | 0 | - | 1.6.4 | - |
 | `/etc/systemd/coredump.conf`: `Storage` | none | - | 1.6.4 | - |
 | `/etc/systemd/timesyncd.conf`: `RootDistanceMaxSec` | 1 | - | 2.2.1.2 | - |
+
+## Ubuntu 20.04
+
+### Documents
+
+[Canonical Ubuntu 20.04 LTS Security Technical Implementation Guide Version: 1 Release: 1](https://public.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cunix-linux)
+
+[CIS Ubuntu Linux 20.04 LTS Benchmark v1.1.0](https://www.cisecurity.org/cis-benchmarks/#ubuntu_linux)
+
+### Comparison Table
+
+_Rule_ is the configuration file and configuration option.\
+_CIS_ is the CIS Benchmark value.\
+_DISA_ is the DISA STIG value.\
+_CIS RN_ is the the CIS Recommendation Number.\
+_STIG-ID_ is the STIG-ID value.
+
+A value of `-` means that the setting wasn't metioned in the
+document.
+
+| Rule | CIS | DISA | CIS RN | STIG-ID |
+| :--- | :-: | :--: | :----: | :-----: |
