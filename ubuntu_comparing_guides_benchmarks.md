@@ -117,3 +117,68 @@ document.
 
 | Rule | CIS | DISA | CIS RN | STIG-ID |
 | :--- | :-: | :--: | :----: | :-----: |
+| `/etc/audit/auditd.conf`: `space_left` | - | 25% | - | UBTU-20-010217 |
+| `/etc/chrony/chrony.conf`: `makestep` | - | 1 -1 | - | UBTU-20-010436 |
+| `/etc/chrony/chrony.conf`: `maxpoll` | - | 17 | - | UBTU-20-010435 |
+| `/etc/default/grub`: `audit_backlog_limit` | 8192 | - | 4.1.1.4 | - |
+| `/etc/default/grub`: `fips` | - | 1 | - | UBTU-20-010442 |
+| `/etc/default/useradd`: `INACTIVE` | 30 | 35 | 5.5.1.4 | UBTU-20-010409 |
+| `/etc/login.defs`: `ENCRYPT_METHOD` | - | SHA512 | - | UBTU-20-010404 |
+| `/etc/login.defs`: `PASS_MAX_DAYS` | 365 | 60 | 5.5.1.2 | UBTU-20-010008 |
+| `/etc/login.defs`: `PASS_MIN_DAYS` | 1 | 1 | 5.5.1.1 | UBTU-20-010007 |
+| `/etc/login.defs`: `PASS_WARN_AGE` | 7 | -| 5.5.1.3 | - |
+| `/etc/login.defs`: `UMASK` | 027 | 077 | 5.5.4 | UBTU-20-010016 |
+| `/etc/pam.d/common-auth`: `pam_faildelay.so delay` | - | 4000000 | - | UBTU-20-010075 |
+| `/etc/pam.d/common-auth`: `pam_tally2.so deny` | 5 | 3 | 5.4.2 | UBTU-20-010072 |
+| `/etc/pam.d/common-password`: `pam_unix.so password` | sha512 | sha512 | 5.4.4 | UBTU-20-010070 |
+| `/etc/pam.d/common-password`: `pam_unix.so, pam_pwhistory.so remember` | 5 | 5 | 5.4.3 | UBTU-20-010070 |
+| `/etc/profile*`: `TMOUT` | 900 | 600 | 5.5.5 | UBTU-20-010013 |
+| `/etc/profile*`: `umask` | 027 | - | 5.5.4 | - |
+| `/etc/security/limits*`: `hard core` | 0 | - | 1.5.4 | - |
+| `/etc/security/limits*`: `hard maxlogins` | - | 10 | - | UBTU-20-010400 |
+| `/etc/security/pwquality.conf`: `dcredit` | -1 | -1 | 5.4.1 | UBTU-20-010052 |
+| `/etc/security/pwquality.conf`: `dictcheck` | - | 1 | - | UBTU-20-010056 |
+| `/etc/security/pwquality.conf`: `difok` | - | 8 | - | UBTU-20-010053 |
+| `/etc/security/pwquality.conf`: `enforcing` | - | 1 | - | UBTU-20-010057 |
+| `/etc/security/pwquality.conf`: `lcredit` | -1 | -1 | 5.4.1 | UBTU-20-010051 |
+| `/etc/security/pwquality.conf`: `minlen` | 14 | 15 | 5.4.1 | UBTU-20-010054 |
+| `/etc/security/pwquality.conf`: `ocredit` | -1 | -1 | 5.4.1 | UBTU-20-010055 |
+| `/etc/security/pwquality.conf`: `ucredit` | -1 | -1 | 5.4.1 | UBTU-20-010050 |
+| `/etc/ssh/sshd_config`: `Ciphers` | chacha20-poly1305\@openssh.com,aes256-gcm\@openssh.com,aes128-gcm\@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr | aes256-ctr,aes192-ctr,aes128-ctr | 5.3.13 | UBTU-20-010044 |
+| `/etc/ssh/sshd_config`: `ClientAliveCountMax` | 3 | 1 | 5.3.16 | UBTU-20-010036 |
+| `/etc/ssh/sshd_config`: `ClientAliveInterval` | 300 | 600 | 5.3.16 | UBTU-20-010037 |
+| `/etc/ssh/sshd_config`: `KexAlgorithms` | curve25519-sha256,curve25519-sha256\@libssh.org,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256 | - | 5.3.15 | - |
+| `/etc/ssh/sshd_config`: `LoginGraceTime` | 60 | - | 5.3.17 | - |
+| `/etc/ssh/sshd_config`: `MACs` | hmac-sha2-512-etm\@openssh.com,hmac-sha2-256-etm\@openssh.com,hmac-sha2-512,hmac-sha2-256 | hmac-sha2-512,hmac-sha2-256 | 5.3.14 | UBTU-20-010043 |
+| `/etc/ssh/sshd_config`: `MaxAuthTries` | 4 | - | 5.3.7 | - |
+| `/etc/ssh/sshd_config`: `MaxSessions` | 10 | - | 5.3.22 | - |
+| `/etc/ssh/sshd_config`: `MaxStartups` | 10:30:60 | - | 5.3.21 | - |
+| `/etc/sssd/conf.d/*.conf`: `offline_credentials_expiration` | - | 1 | - | UBTU-20-010441 |
+| `/etc/sysctl*`: `fs.suid_dumpable` | 0 | - | 1.5.4 | - |
+| `/etc/sysctl*`: `kernel.randomize_va_space` | 2 | 2 | 1.5.2 | UBTU-20-010448 |
+| `/etc/sysctl*`: `net.ipv4.conf.all.accept_redirects` | 0 | - | 3.3.2 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.all.accept_source_route` | 0 | - | 3.3.1 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.all.log_martians` | 1 | - | 3.3.4 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.all.rp_filter` | 1 | - | 3.3.7 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.all.secure_redirects` | 0 | - | 3.3.3 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.all.send_redirects` | 0 | - | 3.2.1 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.default.accept_redirects` | 0 | - | 3.3.2 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.default.accept_source_route` | 0 | - | 3.3.2.| - |
+| `/etc/sysctl*`: `net.ipv4.conf.default.log_martians` | 1 | - | 3.3.4 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.default.rp_filter` | 1 | - | 3.3.7 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.default.secure_redirects` | 0 | - | 3.3.3 | - |
+| `/etc/sysctl*`: `net.ipv4.conf.default.send_redirects` | 0 | - | 3.2.1 | - |
+| `/etc/sysctl*`: `net.ipv4.icmp_echo_ignore_broadcasts` | 1 | - | 3.3.5 | - |
+| `/etc/sysctl*`: `net.ipv4.icmp_ignore_bogus_error_responses` | 1 | - | 3.3.6 | - |
+| `/etc/sysctl*`: `net.ipv4.ip_forward` | 0 | - | 3.2.2 | - |
+| `/etc/sysctl*`: `net.ipv4.tcp_syncookies` | 1 | 1 | 3.3.8 | UBTU-20-010412 |
+| `/etc/sysctl*`: `net.ipv6.conf.all.accept_ra` | 0 | - | 3.3.9 | - |
+| `/etc/sysctl*`: `net.ipv6.conf.all.accept_redirects` | 0 | - | 3.3.2 | - |
+| `/etc/sysctl*`: `net.ipv6.conf.all.accept_source_route` | 0 | - | 3.3.2.| - |
+| `/etc/sysctl*`: `net.ipv6.conf.all.forwarding` | 0 | - | 3.2.2 | - |
+| `/etc/sysctl*`: `net.ipv6.conf.default.accept_ra` | 0 | - | 3.3.9 | - |
+| `/etc/sysctl*`: `net.ipv6.conf.default.accept_redirects` | 0 | - | 3.3.2 | - |
+| `/etc/sysctl*`: `net.ipv6.conf.default.accept_source_route` | 0 | - | 3.3.1| - |
+| `/etc/systemd/coredump.conf`: `ProcessSizeMax` | 0 | - | 1.5.4 | - |
+| `/etc/systemd/coredump.conf`: `Storage` | none | - | 1.5.4 | - |
+| `/etc/systemd/timesyncd.conf`: `RootDistanceMaxSec` | 1 | - | 2.1.1.2 | - |
