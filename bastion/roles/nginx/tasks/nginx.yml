@@ -80,6 +80,7 @@
     restart_policy: on-failure
     restart_retries: 3
     hostname: "{{ ansible_nodename }}"
+    container_default_behavior: compatibility
   tags:
     - docker_container
     - nginx
