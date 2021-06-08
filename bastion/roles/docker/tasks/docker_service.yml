@@ -30,7 +30,6 @@
     name: docker
     state: started
     enabled: 'yes'
-  ignore_errors: 'yes'
   tags:
     - docker
 
